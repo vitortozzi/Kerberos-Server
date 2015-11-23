@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
 import message.ServerTicket;
 import utils.FileUtils;
 import utils.TimeUtils;
@@ -80,10 +81,8 @@ public class ImplementServer extends UnicastRemoteObject implements InterfaceSer
             System.out.println("**Passo 5: Servidor analisa o ticket do cliente");
             serverTicket.print();
             
-            Date date = TimeUtils.getDate();
-            Date limit = serverTicket.timestamp;
-            if(limit.before(date)){
-                return false;
+            if(!TimeUtils.checkValidTimestamp(serverTicket.timestamp)){
+                JOptionPane.showMessageDialog(null, "O ticket para o servidor passou do prazo de validade.");
             }
             else{
                String clientID = serverTicket.clientID;
