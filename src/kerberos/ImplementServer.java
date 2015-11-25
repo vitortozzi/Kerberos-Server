@@ -23,6 +23,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.swing.JOptionPane;
 import message.ServerTicket;
 import utils.FileUtils;
+import utils.HashUtils;
 import utils.TimeUtils;
 
 /**
@@ -31,7 +32,7 @@ import utils.TimeUtils;
  */
 public class ImplementServer extends UnicastRemoteObject implements InterfaceServer{
 
-    String senhaServer = "server12";
+    String senhaServer = "server";
     
     public ImplementServer() throws RemoteException{
         super();
@@ -76,7 +77,7 @@ public class ImplementServer extends UnicastRemoteObject implements InterfaceSer
         
         FileUtils fileUtils;
         try {
-            fileUtils = new FileUtils(senhaServer);
+            fileUtils = new FileUtils(HashUtils.getHash(senhaServer));
             ServerTicket serverTicket = (ServerTicket) fileUtils.readEncryptedObject(filepath);
             System.out.println("**Passo 5: Servidor analisa o ticket do cliente");
             serverTicket.print();
